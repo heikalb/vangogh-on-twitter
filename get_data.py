@@ -11,6 +11,8 @@ def get_urls(url_template, first, last):
         url = url_template.format(index)
         urls.append(url)
 
+    urls.insert(1, url_template.format('001a'))
+
     return urls
 
 
@@ -19,11 +21,27 @@ def get_letter(url):
     html = req.text
     soup = BeautifulSoup(html, 'html.parser')
 
+    # Element containing the letter
     letter_container = soup.select('#tab-container-1')[0]
-    letter_texts = [div.text for div in letter_container.select('div')]
-    letter_texts = [t.replace('\n', ' ') for t in letter_texts]
 
+    # Delete unneeded elements on the website
+    anchors = letter_container.select('span.anchor')
+
+    if anchors:
+        for anchor in anchors:
+            anchor.decompose()
+
+    pagebreaks = letter_container.select('span.pagebreak')
+
+    if pagebreaks:
+        for pagebreak in pagebreaks:
+            pagebreak.decompose()
+
+    # Combine texts from different elements
+    letter_texts = [div.text for div in letter_container.select('div')]
+    letter_texts = [' '.join(t.split()) for t in letter_texts]
     letter_text = ' '.join(letter_texts)
+
     return letter_text
 
 
@@ -47,7 +65,7 @@ def main():
     urls = get_urls(url_template, 1, 902)
 
     # Get letter texts
-    letters = get_letters(urls[:10])
+    letters = get_letters(urls)
 
     # Save data
     save_data(letters)
