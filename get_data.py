@@ -52,6 +52,11 @@ def get_letter(url):
 
 
 def delete_elements(soup, selectors):
+    """
+    Delete specified webpage elements from another webpage element.
+    :param soup: BeautifulSoup object of the webpage element to delete from.
+    :param selectors: selectors of elements to delete.
+    """
     for selector in selectors:
         elements = soup.select(selector)
 
@@ -69,12 +74,13 @@ def get_letters(urls):
     return [get_letter(url) for url in urls]
 
 
-def save_data(letters):
+def save_data(letters, filename):
     """
     Save corpus data to a file. Helper method for main()
     :param letters: list of letters (string)
+    :param filename: name of the file to be saved
     """
-    with open('vangogh_letters_.txt', 'w') as f:
+    with open(filename, 'w') as f:
         f.write('\n'.join(letters))
 
 
@@ -94,7 +100,7 @@ def main():
     letters = get_letters(urls[:5])
 
     # Save data
-    save_data(letters)
+    save_data(letters, 'vangogh_letters.txt')
 
 
 if __name__ == '__main__':
