@@ -1,5 +1,6 @@
 import requests
 from bs4 import BeautifulSoup
+import re
 
 
 def get_urls(url_template, first, last):
@@ -20,6 +21,8 @@ def get_letter(url):
 
     letter_container = soup.select('#tab-container-1')[0]
     letter_texts = [div.text for div in letter_container.select('div')]
+    letter_texts = [t.replace('\n', ' ') for t in letter_texts]
+
     letter_text = ' '.join(letter_texts)
     return letter_text
 
@@ -44,7 +47,7 @@ def main():
     urls = get_urls(url_template, 1, 902)
 
     # Get letter texts
-    letters = get_letters(urls)
+    letters = get_letters(urls[:10])
 
     # Save data
     save_data(letters)
