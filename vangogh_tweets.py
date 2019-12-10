@@ -5,6 +5,11 @@ from nltk import bigrams
 
 
 def get_sentence_lengths(texts):
+    """
+    Get possible sentence lengths from a corpus. Helper method for main().
+    :param texts: list of texts (string)
+    :return: list of sentence lengths in the corpus
+    """
     lengths = []
 
     for text in texts:
@@ -16,18 +21,25 @@ def get_sentence_lengths(texts):
             if len(words):
                 lengths.append(len(words))
 
-    random.shuffle(lengths)
     return lengths
 
 
 def make_markov_chain(texts):
-    words = []
+    """
+    Create a Markov chain for word transitions in a corpus. Helper methdd for
+    main().
+    :param texts: list of texts (string)
+    :return: Markov chain in the form of a dictionary where the key are words
+    and the values are lists of word bigrams that can follow key words.
+    """
+    # Break corpus into words
+    words = [word for text in texts for word in text.split()]
 
-    for text in texts:
-        words += text.split()
-
-    markov_chain = defaultdict(list)
+    # Get current words and their following word bigrams
     prevs, nexts = words[:-2], bigrams(words[1:])
+
+    # Create dictionary of word transitions
+    markov_chain = defaultdict(list)
 
     for prev, next in zip(prevs, nexts):
         markov_chain[prev].append(next)
@@ -36,6 +48,14 @@ def make_markov_chain(texts):
 
 
 def generate_text(markov_chain, lengths):
+    """
+    Generate a sentence based on a given Markov chain. Helper method for main()
+    :param markov_chain: dictionary of word transitions where the keys are
+    words and the values are lists of word bigrams that can follow key words
+    :param lengths: list of possible sentence lengths in a corpus. This is to
+    limit generated sentences to more reasonable lengths.
+    :return: generated sentence (string)
+    """
     length = random.choice(lengths)
     word_1 = ' '
 
@@ -43,7 +63,6 @@ def generate_text(markov_chain, lengths):
         word_1 = random.choice([k for k in markov_chain])
 
     sentence = [word_1]
-
     while True:
         word_2 = random.choice(markov_chain[word_1])
         sentence.append(word_2[0])
@@ -51,12 +70,13 @@ def generate_text(markov_chain, lengths):
         word_1 = word_2[1]
 
         if word_1.endswith('.') or word_1.endswith('?'):
-            print(' '.join(sentence))
-            if len(sentence) == length:
+            if length -2 <= len(sentence) <= length + 2:
                 break
             else:
-                word_1 = sentence[0]
-                sentence = sentence[:1]
+                sentence.clear()
+
+                while not word_1[0].isupper():
+                    word_1 = random.choice([k for k in markov_chain])
 
     return ' '.join(sentence)
 
