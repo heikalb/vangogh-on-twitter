@@ -41,7 +41,7 @@ done using a Markov chain based on Van Gogh's letters.
  
 - And the deaf, desperate state of painting. 
 
-- Be able to give an eternal buddha. 
+- Be able to give an eternal buddha.
 
 - Going to come here and there be tongues, they shall i say.
 
