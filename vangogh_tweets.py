@@ -3,7 +3,6 @@ Generate texts using a Markov chain based on a corpus of letters by Vincent
 Van Gogh.
 Heikal Badrulhisham, 2019 <heikal93@gmail.com>
 """
-
 import re
 from collections import defaultdict
 import random
