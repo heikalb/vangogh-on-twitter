@@ -24,7 +24,7 @@ done using a Markov chain based on Van Gogh's letters.
 
 
 ## Sample generated texts
-- Thus we’ll see.
+- *Thus we’ll see.*
 
 - Lord is travelling, still cling to, which would give me you rely on a
  simple worshipper of the same profound compassion, in paris.
