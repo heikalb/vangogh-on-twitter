@@ -21,6 +21,11 @@ done using a Markov chain based on Van Gogh's letters.
     using the Markov chain. When a sentence is generated, it must adhere to
     a predetermined word count. The specified word count is randomly chosen
     from a list of sentence word counts in the corpus.
+    
+    
+## Requirements
+- beautifulsoup4
+- nltk
 
 
 ## Sample generated texts
